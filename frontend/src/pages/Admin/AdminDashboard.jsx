@@ -9,15 +9,17 @@ import UserDetails from './UserDetails';
 import LoanDetails from './LoanDetails';
 import Settings from './Settings';
 import Profile from './Profile';
+import Payments from './Payments';
 
 function AdminDashboard() {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="mx-auto max-w-7xl">
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/loans" element={<Loans />} />
         <Route path="/loans/:id" element={<LoanDetails />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/payments" element={<Payments />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} />
         <Route path="/reports" element={<Reports />} />

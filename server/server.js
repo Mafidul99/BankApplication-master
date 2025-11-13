@@ -6,6 +6,7 @@ import loanRoutes from './routes/loans.js';
 import transactionRoutes from './routes/transactions.js';
 import userRoutes from './routes/users.js';
 import connectDB from './config/database.js';
+import paymentRoutes from './routes/payments.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/loans', loanRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Database connection
 connectDB().then(() => {

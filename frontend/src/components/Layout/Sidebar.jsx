@@ -21,6 +21,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     { name: 'Dashboard', href: '/admin', icon: '📊', description: 'Overview and analytics' },
     { name: 'Loans', href: '/admin/loans', icon: '💰', description: 'Manage all loans' },
     { name: 'Transactions', href: '/admin/transactions', icon: '💳', description: 'Transaction history' },
+    { name: 'Payments', href: '/admin/payments', icon: '💵', description: 'Manage payments' },
     { name: 'Users', href: '/admin/users', icon: '👥', description: 'User management' },
     { name: 'Reports', href: '/admin/reports', icon: '📈', description: 'Analytics & reports' },
   ];
@@ -28,7 +29,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const userNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: '📊', description: 'Your overview' },
     { name: 'My Loans', href: '/dashboard/loans', icon: '💰', description: 'Your loan applications' },
-    { name: 'Transactions', href: '/dashboard/transactions', icon: '💳', description: 'Payment history' }
+    { name: 'Transactions', href: '/dashboard/transactions', icon: '💳', description: 'Payment history' },
+    { name: 'Make Payment', href: '/dashboard/make-payment', icon: '💵', description: 'Make a new payment' },
+    { name: 'Payment History', href: '/dashboard/payment-history', icon: '📋', description: 'View your payment history' }
   ];
 
   const settingsNavigation = [
@@ -42,25 +45,25 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     <>
       {/* Mobile sidebar */}
       {sidebarOpen && (
-        <div className="fixed inset-0 flex z-40 md:hidden">
+        <div className="fixed inset-0 z-40 flex md:hidden">
           <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white">
-            <div className="absolute top-0 right-0 -mr-12 pt-2">
+          <div className="relative flex flex-col flex-1 w-full max-w-xs bg-white">
+            <div className="absolute top-0 right-0 pt-2 -mr-12">
               <button
-                className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                className="flex items-center justify-center w-10 h-10 ml-1 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 onClick={() => setSidebarOpen(false)}
               >
                 <span className="sr-only">Close sidebar</span>
-                <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
             <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-              <div className="flex-shrink-0 flex items-center px-4">
+              <div className="flex items-center flex-shrink-0 px-4">
                 <div className="flex items-center space-x-3">
-                  <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">L</span>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600">
+                    <span className="text-sm font-bold text-white">L</span>
                   </div>
                   <div>
                     <h1 className="text-xl font-bold text-gray-900">LoanManager</h1>
@@ -68,10 +71,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </div>
                 </div>
               </div>
-              <nav className="mt-8 px-2 space-y-1">
+              <nav className="px-2 mt-8 space-y-1">
                 {/* Main Navigation */}
                 <div className="mb-6">
-                  <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <h3 className="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
                     Main Navigation
                   </h3>
                   <div className="mt-2 space-y-1">
@@ -89,7 +92,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <span className="mr-4 text-lg">{item.icon}</span>
                         <div className="flex-1">
                           <div>{item.name}</div>
-                          <div className="text-xs text-gray-500 mt-1">{item.description}</div>
+                          <div className="mt-1 text-xs text-gray-500">{item.description}</div>
                         </div>
                       </Link>
                     ))}
@@ -98,7 +101,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
                 {/* Settings Navigation */}
                 <div className="mb-6">
-                  <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <h3 className="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
                     Account
                   </h3>
                   <div className="mt-2 space-y-1">
@@ -121,12 +124,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </div>
 
                 {/* Logout Button */}
-                <div className="mt-8 pt-6 border-t border-gray-200">
+                <div className="pt-6 mt-8 border-t border-gray-200">
                   <button
                     onClick={handleLogout}
-                    className="group flex items-center w-full px-2 py-2 text-base font-medium text-red-600 rounded-md hover:bg-red-50 hover:text-red-700 transition-colors"
+                    className="flex items-center w-full px-2 py-2 text-base font-medium text-red-600 transition-colors rounded-md group hover:bg-red-50 hover:text-red-700"
                   >
-                    <svg className="mr-4 h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-6 h-6 mr-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
                     Sign Out
@@ -136,10 +139,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
 
             {/* User info at bottom */}
-            <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+            <div className="flex flex-shrink-0 p-4 border-t border-gray-200">
               <div className="flex items-center">
-                <div className="h-9 w-9 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                  <span className="text-white font-medium text-sm">
+                <div className="flex items-center justify-center rounded-full h-9 w-9 bg-gradient-to-r from-blue-500 to-purple-600">
+                  <span className="text-sm font-medium text-white">
                     {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'U'}
                   </span>
                 </div>
@@ -156,12 +159,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       {/* Desktop sidebar */}
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64">
-          <div className="flex flex-col flex-grow border-r border-gray-200 bg-white overflow-y-auto">
+          <div className="flex flex-col flex-grow overflow-y-auto bg-white border-r border-gray-200">
             {/* Header */}
             <div className="flex items-center flex-shrink-0 px-4 py-5">
               <div className="flex items-center space-x-3">
-                <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">L</span>
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600">
+                  <span className="text-sm font-bold text-white">L</span>
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">LoanManager</h1>
@@ -171,10 +174,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
 
             {/* Main Navigation */}
-            <div className="flex-grow flex flex-col">
-              <nav className="flex-1 px-2 bg-white space-y-1">
+            <div className="flex flex-col flex-grow">
+              <nav className="flex-1 px-2 space-y-1 bg-white">
                 <div className="mb-6">
-                  <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <h3 className="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
                     Main Navigation
                   </h3>
                   <div className="mt-2 space-y-1">
@@ -191,7 +194,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <span className="mr-3 text-lg">{item.icon}</span>
                         <div className="flex-1">
                           <div>{item.name}</div>
-                          <div className="text-xs text-gray-500 mt-1">{item.description}</div>
+                          <div className="mt-1 text-xs text-gray-500">{item.description}</div>
                         </div>
                       </Link>
                     ))}
@@ -200,7 +203,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
                 {/* Settings Navigation */}
                 <div className="mb-6">
-                  <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <h3 className="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
                     Account
                   </h3>
                   <div className="mt-2 space-y-1">
@@ -228,8 +231,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <div className="px-4 py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                      <span className="text-white font-medium text-sm">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600">
+                      <span className="text-sm font-medium text-white">
                         {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'U'}
                       </span>
                     </div>
@@ -240,10 +243,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="ml-3 flex-shrink-0 p-1 text-gray-400 hover:text-red-500 rounded-md transition-colors"
+                    className="flex-shrink-0 p-1 ml-3 text-gray-400 transition-colors rounded-md hover:text-red-500"
                     title="Sign out"
                   >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
                   </button>
