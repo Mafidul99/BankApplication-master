@@ -1,4 +1,4 @@
-import { body, query, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 
 export const createOrderValidation = [
   body('loanId')
@@ -6,58 +6,62 @@ export const createOrderValidation = [
     .withMessage('Loan ID is required')
     .isMongoId()
     .withMessage('Invalid Loan ID'),
-  
+
   body('amount')
     .isFloat({ min: 1 })
-    .withMessage('Amount must be a positive number')
-    .notEmpty()
-    .withMessage('Amount is required'),
-  
-  body('paymentMethod')
+    .withMessage('Amount must be at least 1')
+    .toFloat(),
+
+  body('description')
     .optional()
-    .isIn(['cashfree', 'card', 'upi', 'netbanking', 'wallet'])
-    .withMessage('Invalid payment method')
+    .isLength({ max: 500 })
+    .withMessage('Description must be less than 500 characters')
 ];
 
 export const verifyPaymentValidation = [
   body('orderId')
     .notEmpty()
     .withMessage('Order ID is required')
-    .matches(/^ORDER_/)
-    .withMessage('Invalid Order ID format')
 ];
 
-export const refundPaymentValidation = [
-  body('transactionId')
-    .notEmpty()
-    .withMessage('Transaction ID is required')
-    .isMongoId()
-    .withMessage('Invalid Transaction ID'),
-  
-  body('refundAmount')
+export const refundValidation = [
+  body('amount')
     .optional()
     .isFloat({ min: 1 })
-    .withMessage('Refund amount must be a positive number'),
-  
-  body('refundNote')
+    .withMessage('Amount must be at least 1')
+    .toFloat(),
+
+  body('reason')
     .optional()
-    .isLength({ max: 500 })
-    .withMessage('Refund note must be less than 500 characters')
+    .isLength({ max: 255 })
+    .withMessage('Reason must be less than 255 characters')
 ];
 
-export const paymentHistoryValidation = [
+export const paymentQueryValidation = [
   query('page')
     .optional()
     .isInt({ min: 1 })
-    .withMessage('Page must be a positive integer'),
-  
+    .withMessage('Page must be a positive integer')
+    .toInt(),
+
   query('limit')
     .optional()
     .isInt({ min: 1, max: 100 })
-    .withMessage('Limit must be between 1 and 100'),
-  
-  query('userId')
+    .withMessage('Limit must be between 1 and 100')
+    .toInt(),
+
+  query('status')
     .optional()
-    .isMongoId()
-    .withMessage('Invalid User ID')
+    .isIn(['pending', 'success', 'failed', 'cancelled'])
+    .withMessage('Invalid status'),
+
+  query('startDate')
+    .optional()
+    .isISO8601()
+    .withMessage('Start date must be a valid date'),
+
+  query('endDate')
+    .optional()
+    .isISO8601()
+    .withMessage('End date must be a valid date')
 ];
